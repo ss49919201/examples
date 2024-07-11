@@ -7,4 +7,6 @@ type User = typeof user;
         name: string;
         age: number;
     }
- */
+*/
+
+// type S = typeof "str"; リテラル値は渡せない
