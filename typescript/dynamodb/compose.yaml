@@ -1,0 +1,15 @@
+volumes:
+  dynamodb:
+
+services:
+  dynamodb:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    ports:
+      - "127.0.0.1:18000:8000"
+    volumes:
+      - type: volume
+        source: dynamodb
+        target: /home/dynamodblocal/data
+    user: root # dyanmodb-local は dynamodblocal というユーザで実行される。volume に指定している dynamodb は root の所有であり dynamodblocal は書き込み権限がないため、root で実行する必要がある
+    working_dir: /home/dynamodblocal
