@@ -9,6 +9,16 @@
 // ドメインロジックがクエリやDB操作呼び出しコードに分散したり集約のカプセル化違反が起こることを防ぐ。また、呼び出し元が複雑になることも防げる。
 // ②テストをしやすくするため。
 // DBじゃなくてインメモリを使うように差し替えることで、テストをしやすくすることができる。
+//
+// コレクション指向、永続化指向がある
+// コレクション指向では、データの更新後に再度保存する処理は必要ないが、リポジトリの実装が複雑になる
+//
+// リポジトリは集約のルートを返すのが一般的だが、それ以外を返す振る舞いを提供しても良い。
+// (特定の条件に合致する集約、集約のルート以外のオブジェクト、件数を返す)
+// これらを採用する背景には、パフォーマンスのボトルネックを解消することがあると思うが、多用は避けるべき。クライアントの利便性の為だけに採用するべきではない。
+// システムのユースケースとして複数の集約(もしくはその一部)をマージした値が欲しい場合もある。その場合に複数のリポジトリを呼び出して値を組み立てるのではなく、値オブジェクトとして扱いリポジトリから返す。
+// 集約ではなく値オブジェクトを返すメソッドは、件数を返すようなメソッドの延長線上にあるものなので許容してもよい。呼び出し元の要件に従って返す値が複雑になっただけである。
+// もし、値オブジェクトの返却を多用するようになったら集約の設計を見直す必要がある兆候かもしれない。集約の境界が間違っていないようならCQRSを検討する。
 
 type User = {
   id: number;
@@ -24,13 +34,30 @@ type Schedule = {
   participantIds: number[]; // User.id
 };
 
+type SchedulesWithParticipantNames = {
+  schedules: {
+    [id: number]: {
+      scheduleName: string;
+      participantNames: string[];
+    };
+  };
+};
+
+// 永続化指向
 type UserRepository = {
   findById: (id: number) => User | undefined;
   save: (user: User) => void;
 };
 
+// コレクション指向
 type ScheduleRepository = {
   findById: (id: number) => Schedule | undefined;
   findByParticipantId: (id: number) => Array<Schedule>;
-  save: (schedule: Schedule) => void;
+  add: (schedule: Schedule) => void;
+  remove: (schedule: Schedule) => void;
+
+  // ユースケース特化の値オブジェクトを返す
+  findSchedulesWithParticipantNames: (
+    participantId: number
+  ) => SchedulesWithParticipantNames;
 };
