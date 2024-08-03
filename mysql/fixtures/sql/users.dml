@@ -1,0 +1,11 @@
+INSERT INTO
+    `users` (`id`, `name`, `count`, `updated_at`)
+VALUES ("A", "テストA", "0", NOW());
+
+INSERT INTO
+    `users` (`id`, `name`, `count`, `updated_at`)
+VALUES ("B", "テストプランB", "0", NOW());
+
+INSERT INTO
+    `users` (`id`, `name`, `count`, `updated_at`)
+VALUES ("C", "テストプランC", "0", NOW());
