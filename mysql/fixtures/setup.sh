@@ -1,5 +1,7 @@
 #!bin/bash
 
+sleep 1
+
 MYSQL_PWD=password
 DATABASE=rdb
 DIR=`dirname $0`
