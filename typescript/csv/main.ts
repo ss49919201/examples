@@ -7,12 +7,21 @@ const stringfier: Stringifier = stringify({
   header: true,
   columns: {
     word: "単語",
-    sentence: "これは\n文章です。",
+    sentenceLF: "これは\n文章です。",
+    sentenceCR: "これは\r文章です。",
+    sentenceCRLF: "これは\n文章です。",
   },
 });
 
 const stringfierSync = stringifySync(
-  [{ word: "単語", sentence: "これは\n文章です。" }],
+  [
+    {
+      word: "単語",
+      sentenceLF: "これは\n文章です。",
+      sentenceCR: "これは\r文章です。",
+      sentenceCRLF: "これは\n文章です。",
+    },
+  ],
   {
     header: true,
   }
