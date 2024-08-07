@@ -1,11 +1,11 @@
 INSERT INTO
-    `users` (`name`, `age`, `updated_at`)
-VALUES ("Foo", "0", NOW());
+    `users` (`name`, `age`, `self_introduction`, `updated_at`)
+VALUES ("Foo", "0", "私はBarです。",NOW());
 
 INSERT INTO
-    `users` (`name`, `age`, `updated_at`)
-VALUES ("Bar", "0", NOW());
+    `users` (`name`, `age`, `self_introduction`,`updated_at`)
+VALUES ("Bar", "0", "私は\nBarです。", NOW());
 
 INSERT INTO
-    `users` (`name`, `age`, `updated_at`)
-VALUES ("Baz", "0", NOW());
+    `users` (`name`, `age`, `self_introduction`, `updated_at`)
+VALUES ("Baz", "0", "私は\r\nBazです。",NOW());
