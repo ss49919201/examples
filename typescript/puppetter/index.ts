@@ -1,5 +1,5 @@
 import { readFileSync, unlinkSync } from "fs";
-import puppeteer from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 
 const generatePdf = async (input: string): Promise<Buffer> => {
   await writePdf({
@@ -49,16 +49,55 @@ const generatePdfBuffer = async ({
   return Buffer.from(arrayBuffer);
 };
 
-generatePdf(`
-    <h1><a href="https://example.com">Example</a></h1>
-`).then((buffer) => {
-  console.log("Success! buffer.length is ", buffer.length);
+const generateMultipluPdfs = async (): Promise<void> => {
+  console.log("Starting...");
+  const start = Date.now();
+  const browser = await puppeteer.launch();
+  const promises = Array.from({ length: 2 }).map(async (_, i) => {
+    const page = await browser.newPage();
+    await page.setContent(`
+    <h1><a href="https://example.com">Example${i}</a></h1>
+  `);
+    const buffer = await page.pdf({
+      path: `./output${i}.pdf`,
+    });
+    console.log("Success! buffer.length is ", buffer.length);
+    return buffer;
+  });
+  await Promise.all(promises);
+  await browser.close();
+  console.log("All done in ", Date.now() - start, "ms");
+};
+
+const generateMultipluPdfsUsingParam = async (
+  browser: Browser
+): Promise<void> => {
+  console.log("Starting...");
+  const start = Date.now();
+  const promises = Array.from({ length: 2 }).map(async (_, i) => {
+    const page = await browser.newPage();
+    await page.setContent(`
+    <h1><a href="https://example.com">Example${i}</a></h1>
+  `);
+    const buffer = await page.pdf({
+      path: `./output${i}.pdf`,
+    });
+    console.log("Success! buffer.length is ", buffer.length);
+    return buffer;
+  });
+  await Promise.all(promises);
+  await browser.close();
+  console.log("All done in ", Date.now() - start, "ms");
+};
+
+generateMultipluPdfs().finally(() => {
+  console.log("All done");
 });
 
-generatePdfBuffer({
-  content: `
-    <h1><a href="https://example.com">Example</a></h1>
-  `,
-}).then((buffer) => {
-  console.log("Success! buffer.length is ", buffer.length);
-});
+(async function () {
+  const browser = await puppeteer.launch();
+  generateMultipluPdfsUsingParam(browser).finally(async () => {
+    console.log("All done");
+    await browser.close();
+  });
+})();
