@@ -7,38 +7,20 @@ function quickSort(array: Array<number>): Array<number> {
   const pivotIndex = Math.floor(array.length / 2);
   const pivot = array[pivotIndex];
 
-  // ピボットより左側
-  const left = array.slice(0, pivotIndex);
+  const left: typeof array = [];
+  const right: typeof array = [];
 
-  // ピボットより右側
-  const right = array.slice(pivotIndex + 1);
+  for (const [i, v] of array.entries()) {
+    if (i === pivotIndex) continue;
 
-  // 左側にピボットより大きい値があれば抽出する
-  const newLeft: number[] = [];
-  const toRight: number[] = [];
-  for (const v of left) {
-    if (v > pivot) {
-      toRight.push(v);
-    } else {
-      newLeft.push(v);
-    }
-  }
-
-  // 右側にピボットより小さい値があれば抽出する
-  const newRight: number[] = [];
-  const toLeft: number[] = [];
-  for (const v of right) {
     if (v < pivot) {
-      toLeft.push(v);
+      left.push(v);
     } else {
-      newRight.push(v);
+      right.push(v);
     }
   }
 
-  newLeft.push(...toLeft);
-  newRight.push(...toRight);
-
-  return [...quickSort(newLeft), pivot, ...quickSort(newRight)];
+  return [...quickSort(left), pivot, ...quickSort(right)];
 }
 
 console.log(quickSort([2]));
