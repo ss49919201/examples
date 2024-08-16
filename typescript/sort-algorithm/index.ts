@@ -24,21 +24,18 @@ function quickSort(array: Array<number>): Array<number> {
 }
 
 function bubbleSort(array: Array<number>): Array<number> {
-  const result: typeof array = [];
-  let tmp: typeof array = array;
-  for (let i = 0; i < array.length; i++) {
-    let max = tmp[0];
-    let maxIdx = 0;
-    for (const [j, v] of tmp.entries()) {
-      if (max < v) {
-        maxIdx = j;
-        max = v;
+  // 前から後ろに向かって大きい値を浮かび上がらせる
+  for (let i = array.length - 1; i >= 0; i--) {
+    for (let j = 0; j < i; j++) {
+      if (array[j] > array[j + 1]) {
+        let jv = array[j];
+        array[j] = array[j + 1];
+        array[j + 1] = jv;
       }
     }
-    result.push(max);
-    tmp = [...tmp.slice(0, maxIdx), ...tmp.slice(maxIdx + 1)];
   }
-  return result.reverse();
+
+  return array;
 }
 
 // console.log(quickSort([2]));
