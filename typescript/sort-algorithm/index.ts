@@ -1,3 +1,7 @@
+function assert(expr: boolean, msg?: string): void {
+  if (!expr) throw new Error("Assertion Error" + (msg ? `: ${msg}` : ""));
+}
+
 function quickSort(array: Array<number>): Array<number> {
   if (array.length < 2) {
     return array;
@@ -38,12 +42,12 @@ function bubbleSort(array: Array<number>): Array<number> {
   return array;
 }
 
-// console.log(quickSort([2]));
-// console.log(quickSort([2, 4]));
-// console.log(quickSort([2, 4, 6]));
-// console.log(quickSort([2, 4, 6, 8]));
-// console.log(quickSort([5, 2, 4, 6, 8, 1]));
-// console.log(quickSort([5, 2, 9, 2, 1, 4, 6, 8, 1]));
+console.log(quickSort([2]));
+console.log(quickSort([2, 4]));
+console.log(quickSort([2, 4, 6]));
+console.log(quickSort([2, 4, 6, 8]));
+console.log(quickSort([5, 2, 4, 6, 8, 1]));
+console.log(quickSort([5, 2, 9, 2, 1, 4, 6, 8, 1]));
 
 console.log(bubbleSort([2]));
 console.log(bubbleSort([2, 4]));
