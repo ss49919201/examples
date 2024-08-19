@@ -1,34 +1,31 @@
 package main
 
-func selectSort(array []int) []int {
-	if len(array) <= 1 {
-		return array
-	}
-
-	var minIndex int
-	minVal := array[0]
-	for i, v := range array[1:] {
-		if v < minVal {
-			minVal = v
-			minIndex = i + 1
+func selectSort(array []int) {
+	for i := 0; i < len(array)-1; i++ {
+		// find min index
+		minIndex := i
+		minVal := array[minIndex]
+		for j, v := range array[i:] {
+			if v < minVal {
+				minVal = v
+				minIndex = j + i
+			}
 		}
-	}
 
-	return append(
-		[]int{minVal},
-		selectSort(append(array[:minIndex], array[minIndex+1:]...))...,
-	)
+		// swap
+		array[i], array[minIndex] = array[minIndex], array[i]
+	}
 }
 
 func main() {
 	array := []int{3, 2, 1, 5, 4}
-	array = selectSort(array)
+	selectSort(array)
 	for _, v := range array {
 		println(v)
 	}
 
 	array = []int{0, 0, 9, 2, 3, 10, 1}
-	array = selectSort(array)
+	selectSort(array)
 	for _, v := range array {
 		println(v)
 	}
