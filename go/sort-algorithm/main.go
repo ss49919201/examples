@@ -4,16 +4,14 @@ func selectSort(array []int) {
 	for i := 0; i < len(array)-1; i++ {
 		// find min index
 		minIndex := i
-		minVal := array[minIndex]
 		for j, v := range array[i:] {
-			if v < minVal {
-				minVal = v
-				minIndex = j + i
+			if v < array[minIndex] {
+				minIndex = j
 			}
 		}
 
 		// swap
-		array[i], array[minIndex] = array[minIndex], array[i]
+		array[i], array[minIndex+i] = array[minIndex+i], array[i]
 	}
 }
 
