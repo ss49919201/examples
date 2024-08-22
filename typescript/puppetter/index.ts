@@ -41,7 +41,9 @@ const generatePdfBuffer = async ({
 }: {
   content: string;
 }): Promise<Buffer> => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
   await page.setContent(content);
   const arrayBuffer = await page.pdf({});
@@ -52,7 +54,9 @@ const generatePdfBuffer = async ({
 const generateMultipluPdfs = async (): Promise<void> => {
   console.log("Starting...");
   const start = Date.now();
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const promises = Array.from({ length: 2 }).map(async (_, i) => {
     const page = await browser.newPage();
     await page.setContent(`
@@ -95,7 +99,9 @@ generateMultipluPdfs().finally(() => {
 });
 
 (async function () {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   generateMultipluPdfsUsingParam(browser).finally(async () => {
     console.log("All done");
     await browser.close();
