@@ -1,6 +1,8 @@
 # Node.js 20 Alpine
 FROM node:20-alpine
 
+WORKDIR /app
+
 RUN apk add --no-cache \
     chromium \
     nss \
@@ -19,12 +21,13 @@ COPY . .
 RUN npm ci
 
 # Add user so we don't need --no-sandbox.
-# RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
-#     && mkdir -p /home/pptruser/Downloads /app \
-#     && chown -R pptruser:pptruser /home/pptruser \
-#     && chown -R pptruser:pptruser /app
+RUN addgroup -S appuser && adduser -S -G appuser appuser \
+    && mkdir -p /home/appuser/Downloads /app \
+    && chown -R appuser:appuser /home/appuser \
+    && chown -R appuser:appuser /app
+
 # Run everything after as non-privileged user.
-# USER pptruser
+USER appuser
 
 # Run the app
 CMD ["npx", "tsx", "index.ts"]
