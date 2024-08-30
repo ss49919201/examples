@@ -1,4 +1,4 @@
-FROM node:20-alpin9
+FROM node:20-alpin
 COPY . .
 
 RUN npm ci
