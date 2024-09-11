@@ -27,6 +27,8 @@ type userNormarize2 struct {
 	friendName string
 
 	// 部分関数従属を解消し、完全関数従属にする
+	// - countryName は countryID に関数従属している
+	// - countryID は候補キーなので、非キー属性の countryName が、候補キーの countryID に関数従属しているので、部分関数従属している
 	// 逆操作の「結合」を行えばもとに戻せる
 	countryID int // 主キー
 
@@ -45,5 +47,6 @@ type userNormarize3 struct {
 	countryID int // 主キー
 
 	// 推移的関数従属を解消
+	// - 非キー属性の cityName が、非キー属性の countryName に関数従属しているので、推移的関数従属している
 	cityID int
 }
