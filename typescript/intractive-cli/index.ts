@@ -7,14 +7,15 @@ const readlineInterface = createInterface({
 });
 
 const main = async () => {
-  readlineInterface.question("処理を実行しますか？ (y/n): ").then((answer) => {
-    if (answer.toLowerCase() === "y" || answer.toLowerCase() === "yes") {
-      console.log("処理を実行します");
-    } else {
-      console.log("処理をキャンセルしました");
+  while (true) {
+    const input = await readlineInterface.question("数値を入力してください: ");
+    if (input === "exit") {
+      break;
     }
-    readlineInterface.close();
-  });
+    for (const value of input.split(",")) {
+      console.log(`入力された値は${value}です`);
+    }
+  }
 };
 
 main();
