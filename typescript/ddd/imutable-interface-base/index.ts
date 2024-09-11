@@ -32,10 +32,12 @@ export function reconstructArticle(
   return { id, ...article, createdAt };
 }
 
-export function publish(article: SavedArticle): PublishedArticle {
+export function publishArticle(article: SavedArticle): PublishedArticle {
   return { ...article, status: "published", publishedAt: new Date() };
 }
 
-export function isPublished(article: Article): article is PublishedArticle {
+export function isArticlePublished(
+  article: Article
+): article is PublishedArticle {
   return article.status === "published";
 }

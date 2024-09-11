@@ -26,6 +26,6 @@ export function reconstructArticle(
   return { id, ...article, createdAt };
 }
 
-export function publish(article: SavedArticle): PublishedArticle {
+export function publishArticle(article: SavedArticle): PublishedArticle {
   return { ...article, status: "published", publishedAt: new Date() };
 }
