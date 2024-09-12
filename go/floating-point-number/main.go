@@ -7,8 +7,10 @@ type bit struct {
 // 10進数の少数点数には、2進数で表現できない数がある
 type float32 struct {
 	sign     bit
-	exponent [8]bit
-	fraction [23]bit
+	exponent [8]bit  // 指数部
+	fraction [23]bit // 仮数部
+
+	// 仮数 * 2^指数
 }
 
 func main() {
