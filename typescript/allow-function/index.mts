@@ -5,7 +5,7 @@ const f2 = (n: number, ...ns: number[]) => {};
 const object = {
   s: "string",
 
-  //  this を持たないのでメソッドには使わない
+  // this は定義時に決まる
   fn: () => {
     console.log(this); // {}
     console.log(this.s); // undefined
