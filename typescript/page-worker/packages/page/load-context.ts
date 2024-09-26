@@ -1,3 +1,4 @@
+import { Service } from "@cloudflare/workers-types";
 import { type PlatformProxy } from "wrangler";
 import { ExampleService } from "../worker/src/index";
 
