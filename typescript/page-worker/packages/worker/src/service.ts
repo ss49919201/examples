@@ -1,11 +1,16 @@
 import { WorkerEntrypoint } from 'cloudflare:workers';
+import { Controller } from './controller';
+import { Reposiotry } from './repository';
+import { Usecase } from './usecase';
 
 export class ExampleService extends WorkerEntrypoint<Env> {
 	getValue() {
-		const random = Math.random();
-		this.log('getting value ' + random);
+		const ctrl = new Controller(this.ctx, new Usecase(new Reposiotry(), this.ctx));
 
-		return random;
+		const value = ctrl.get();
+		this.log('getting value ' + value);
+
+		return value;
 	}
 
 	newGetValue() {
