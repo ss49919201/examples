@@ -19,3 +19,11 @@ type MappedType2 = {
 } & {
   prop3: boolean;
 };
+
+// Record<K, T> は Mapped Type の一種で、{ [P in K]: T } と同じ
+type RecordType = Record<"prop1" | "prop2", string>;
+const record: Record<keyof Obj, string> = {
+  prop1: "string",
+  prop2: "string",
+  // prop3: "string", // Object literal may only specify known properties, but 'prop3' does not exist in type 'Record<keyof Obj, string>'. Did you mean to write 'prop1'?
+} as const;
