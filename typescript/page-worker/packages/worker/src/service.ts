@@ -17,6 +17,11 @@ export class ExampleService extends WorkerEntrypoint<Env> {
 		return () => this.getValue();
 	}
 
+	// 必ずエラーを返す関数
+	error() {
+		throw new Error('error');
+	}
+
 	private log(message: string) {
 		this.ctx.waitUntil(Promise.resolve(console.log(message)));
 	}

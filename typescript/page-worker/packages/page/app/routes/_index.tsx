@@ -3,7 +3,16 @@ import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const value = await context.cloudflare.env.SERVICE.getValue();
+  let value;
+  try {
+    value = await context.cloudflare.env.SERVICE.getValue();
+  } catch (error) {
+    if (error instanceof Error) {
+      value = error.message;
+    } else {
+      value = "Unknown error";
+    }
+  }
 
   return { value };
 };
