@@ -4,6 +4,7 @@ const User = z.object({
   id: z.number().positive().min(1).int(),
   name: z.string().min(1),
   age: z.number().positive().int(),
+  blog: z.custom<Blob>(),
 });
 
 export type User = z.infer<typeof User>;
