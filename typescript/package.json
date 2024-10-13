@@ -12,6 +12,7 @@
     "@types/node": "^22.0.2",
     "crv-cli": "^0.0.1",
     "file-to-b64": "^0.0.1",
+    "file-type": "^19.5.0",
     "puppeteer": "^23.0.1",
     "ts-node": "^10.9.2"
   },
