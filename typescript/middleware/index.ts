@@ -46,50 +46,56 @@
 // use reduce
 {
   type Handler<T, S> = (arg: T) => S;
-  type Middleware<T, S> = (handler: Handler<T, S>) => Handler<T, S>;
+  type Middleware<T, S> = (next: Handler<T, S>) => Handler<T, S>;
 
-  const compose = <T, S>(
+  function compose<T, S>(
     handler: Handler<T, S>,
     ...middlewares: Middleware<T, S>[]
-  ): Handler<T, S> => {
+  ): Handler<T, S> {
     return middlewares.reduce((acc, middleware) => middleware(acc), handler);
-  };
+  }
 
-  const logger: Middleware<string, void> = (handler) => (arg) => {
-    console.log({
-      type: "log",
-      message: `Calling handler with arg: ${arg}`,
-    });
-    const res = handler(arg);
-    console.log({
-      type: "log",
-      message: "Handler returned successfully",
-    });
-    return res;
-  };
+  function logger<T, S>(next: Handler<T, S>): Handler<T, S> {
+    return (arg) => {
+      console.log({
+        type: "log",
+        message: `Calling handler with arg: ${arg}`,
+      });
+      const res = next(arg);
+      console.log({
+        type: "log",
+        message: "Handler returned successfully",
+      });
+      return res;
+    };
+  }
 
-  const error: Middleware<string, void> = (handler) => (arg) => {
-    console.log({
-      type: "log",
-      message: "Checking for errors",
-    });
-    let res;
-    try {
-      res = handler(arg);
-    } catch (e) {
-      console.error(e);
-    }
-    console.log({
-      type: "log",
-      message: "No errors occurred",
-    });
-    return res;
-  };
+  function error<T, S>(next: Handler<T, S>): Handler<T, S> {
+    return (arg) => {
+      console.log({
+        type: "log",
+        message: "Checking for errors",
+      });
+      let res;
+      try {
+        res = next(arg);
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
+      console.log({
+        type: "log",
+        message: "No errors occurred",
+      });
+      return res;
+    };
+  }
 
-  const handler: Handler<string, void> = (arg) => {
-    console.log(`Hello, ${arg}`);
-    return "Hello, world from handler";
-  };
+  function handler(arg: string): string {
+    console.log(`Hello, ${arg}!`);
+    throw new Error("Error");
+    // return `Hello, ${arg}!`;
+  }
 
   const composed = compose(handler, logger, error);
   console.log(composed("world"));
