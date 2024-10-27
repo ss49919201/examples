@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.675.0",
     "@types/node": "^22.0.2",
     "crv-cli": "^0.0.1",
     "file-to-b64": "^0.0.1",
