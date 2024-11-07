@@ -20,6 +20,15 @@ type User = {
   posts: Post[];
 };
 
+// プロパティごとにメタ文字列を定義する
+const userMeta: Record<keyof Omit<User, "posts">, string> = {
+  id: "id",
+  name: "name",
+  email: "email",
+
+  // TODO: ネストされたオブジェクトは再帰的に定義する
+};
+
 const users: User[] = [
   {
     id: 1,
