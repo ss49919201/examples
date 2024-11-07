@@ -1,3 +1,5 @@
+import { DeepPartial } from "ts-essentials";
+
 const newId = () => Math.floor(Math.random() * 1000);
 
 type Post = {
@@ -91,4 +93,10 @@ const updateUser = (input: {
       }
     }
   }
+};
+
+const updateUserFromPartialUser = (input: DeepPartial<User>, user: User) => {
+  Object.entries(input).forEach(([key, value]) => {
+    // TODO: Implement this
+  });
 };
