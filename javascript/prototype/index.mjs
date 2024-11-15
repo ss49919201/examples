@@ -17,3 +17,11 @@ subObj.decrement();
 
 console.log(superObj.count);
 console.log(subObj.count);
+
+// constructor function
+function User(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+console.log(new User("John", 30));
