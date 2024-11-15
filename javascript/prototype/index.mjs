@@ -24,4 +24,9 @@ function User(name, age) {
   this.age = age;
 }
 
+User.static = function () {
+  console.log("static method");
+};
+
 console.log(new User("John", 30));
+User.static();
