@@ -53,11 +53,28 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
     };
   };
 
-  console.log(createElement("div"));
-  console.log(JSON.stringify(createElement("div", null, "a", "b")));
+  const render = (element, container) => {
+    const dom =
+      element.type === "TEXT_ELEMENT"
+        ? createTextElement("")
+        : document.createElement(element.type);
+
+    Object.keys(element.props)
+      .filter((key) => key !== "children")
+      .forEach((name) => {
+        dom[name] = element.props[name];
+      });
+
+    element.props.children.forEach((child) => {
+      render(child, dom);
+    });
+
+    container.appendChild(dom);
+  };
 
   const Seact = {
     createElement,
+    render,
   };
 
   const element = Seact.createElement(
@@ -66,7 +83,6 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
     Seact.createElement("a", null, "bar"),
     Seact.createElement("b")
   );
-  console.log(JSON.stringify(element));
 
   // bable に jsx を変換する際に、Seact.createElement を使わせる
   /** @jsx Seact.createElement */
@@ -76,4 +92,7 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
       <b />
     </div>
   );
+
+  const container = document.getElementById("root");
+  Seact.render(elementForJsx, container);
 }
