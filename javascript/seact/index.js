@@ -53,29 +53,112 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
     };
   };
 
-  const render = (element, container) => {
+  const createDom = (fiber) => {
     const dom =
-      element.type === "TEXT_ELEMENT"
-        ? createTextElement("")
-        : document.createElement(element.type);
+      fiber.type === "TEXT_ELEMENT"
+        ? document.createTextNode("")
+        : document.createElement(fiber.type);
 
-    Object.keys(element.props)
+    Object.keys(fiber.props)
       .filter((key) => key !== "children")
       .forEach((name) => {
-        dom[name] = element.props[name];
+        dom[name] = fiber.props[name];
       });
 
-    element.props.children.forEach((child) => {
-      render(child, dom);
-    });
+    return dom;
+  };
 
-    container.appendChild(dom);
+  // nextUnitOfWorkをfiberツリーのルートに設定する
+  const render = (element, container) => {
+    wipRoot = {
+      dom: container,
+      props: {
+        children: [element],
+      },
+    };
+
+    nextUnitOfWork = wipRoot;
   };
 
   const Seact = {
     createElement,
     render,
   };
+
+  const performUnitWork = (fiber) => {
+    if (!fiber.dom) {
+      fiber.dom = createDom(fiber);
+    }
+
+    const elements = fiber.props.children;
+    let index = 0;
+    let prevSibling = null;
+
+    while (index < elements.length) {
+      const element = elements[index];
+
+      const newFiber = {
+        type: element.type,
+        props: element.props,
+        parent: fiber,
+        dom: null,
+      };
+
+      if (index === 0) {
+        fiber.child = newFiber;
+      } else {
+        prevSibling.sibling = newFiber;
+      }
+
+      prevSibling = newFiber;
+      index++;
+    }
+
+    if (fiber.child) {
+      return fiber.child;
+    }
+    let nextFiber = fiber;
+    while (nextFiber) {
+      if (nextFiber.sibling) {
+        return nextFiber.sibling;
+      }
+      nextFiber = nextFiber.parent;
+    }
+  };
+
+  let wipRoot = null;
+  let nextUnitOfWork = null;
+
+  const commitWork = (fiber) => {
+    if (!fiber) return;
+
+    const domParent = fiber.parent.dom;
+    domParent.appendChild(fiber.dom);
+    commitWork(fiber.child);
+    commitWork(fiber.sibling);
+  };
+
+  // 仮装DOMをDOMに反映する
+  const commitRoot = () => {
+    commitWork(wipRoot.child);
+    wipRoot = null;
+  };
+
+  const workLoop = (deadline) => {
+    let shouldYield = false;
+    while (nextUnitOfWork && !shouldYield) {
+      nextUnitOfWork = performUnitWork(nextUnitOfWork);
+      shouldYield = deadline.timeRemaining() < 1;
+    }
+
+    if (!nextUnitOfWork && wipRoot) {
+      commitRoot();
+    }
+
+    requestIdleCallback(workLoop);
+  };
+
+  requestIdleCallback(workLoop);
 
   const element = Seact.createElement(
     "div",
