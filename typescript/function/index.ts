@@ -8,7 +8,7 @@ console.log(Constructor("Hello, World!")); // Hello, World!
 function Constructor2(v: string) {}
 
 console.log(Constructor2("Hello, World!")); // Hello, World!
-console.log(new Constructor2("Hello, World!")); // 戻り値がvoidではない関数のためエラー
+console.log(new Constructor2("Hello, World!"));
 
 const Constructor3 = (v: string) => {};
 
