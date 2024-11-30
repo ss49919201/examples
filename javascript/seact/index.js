@@ -31,6 +31,12 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
   node.appendChild(text);
   container.appendChild(node);
 } else if (arg === "2") {
+  let wipFiber = null;
+  let currentHookIndex = null;
+  let wipRoot = null;
+  let nextUnitOfWork = null;
+  let deletion = null;
+
   const createTextElement = (text) => {
     return {
       type: "TEXT_ELEMENT",
@@ -82,9 +88,39 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
     nextUnitOfWork = wipRoot;
   };
 
+  const useState = (initial) => {
+    const oldHook =
+      wipFiber.alternate &&
+      wipFiber.alternate.hooks &&
+      wipFiber.alternate.hooks[currentHookIndex];
+    const hook = {
+      state: oldHook ? oldHook.state : initial,
+    };
+    const setState = (action) => {
+      hook.queue.push(action);
+      wipRoot = {
+        dom: currentRoot.dom,
+        props: currentRoot.props,
+        alternate: currentRoot,
+      };
+      nextUnitOfWork = wipRoot;
+      deletions = [];
+    };
+
+    const actions = oldHook ? oldHook.queue : [];
+    actions.forEach((action) => {
+      hook.state = action(state);
+    });
+
+    wipFiber.hooks.push(hook);
+    currentHookIndex++;
+    return [hook.state, setState];
+  };
+
   const Seact = {
     createElement,
     render,
+    useState,
   };
 
   const reconcilChildren = (wipFiber, elements) => {
@@ -144,6 +180,9 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
   };
 
   const updateFunctionComponent = (fiber) => {
+    wipFiber = fiber;
+    currentHookIndex = 0;
+    wipFiber.hooks = [];
     const children = [fiber.type(fiber.props)];
     reconcilChildren(children);
   };
@@ -177,14 +216,14 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
     }
   };
 
-  let wipRoot = null;
-  let nextUnitOfWork = null;
-  let deletion = null;
-
   const isEvent = (key) => key.startsWith("on");
+
   const isProp = (key) => key !== "children" && !isEvent(key);
+
   const isGone = (prev, next) => (key) => !(key in next);
+
   const isNew = (prev, next) => (key) => prev[key] !== next[key];
+
   const updateDom = (dom, prevProps, nextProps) => {
     // 古いDOMの削除
     Object.keys(prevProps)
@@ -220,6 +259,7 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
         dom.addEventListner(eventType, nextProps[name]);
       });
   };
+
   const deleteDom = (fiber, domParent) => {
     if (fiber.dom) {
       domParent.removeChild(fiber.dom);
