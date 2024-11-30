@@ -143,7 +143,12 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
     }
   };
 
-  const performUnitWork = (fiber) => {
+  const updateFunctionComponent = (fiber) => {
+    const children = [fiber.type(fiber.props)];
+    reconcilChildren(children);
+  };
+
+  const updateHostComponent = (fiber) => {
     if (!fiber.dom) {
       fiber.dom = createDom(fiber);
     }
@@ -160,6 +165,15 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
         return nextFiber.sibling;
       }
       nextFiber = nextFiber.parent;
+    }
+  };
+
+  const performUnitWork = (fiber) => {
+    const isFunctionComponent = fiber.type instanceof Function;
+    if (isFunctionComponent) {
+      updateFunctionComponent(fiber);
+    } else {
+      updateHostComponent(fiber);
     }
   };
 
@@ -206,11 +220,23 @@ const element = Seact.CreateElement("h1", { title: "foo" }, "Hello"); // メイ�
         dom.addEventListner(eventType, nextProps[name]);
       });
   };
+  const deleteDom = (fiber, domParent) => {
+    if (fiber.dom) {
+      domParent.removeChild(fiber.dom);
+    } else {
+      deleteDom(fiber.child, domParent);
+    }
+  };
 
   const commitWork = (fiber) => {
     if (!fiber) return;
 
-    const domParent = fiber.parent.dom;
+    // DOMノードを持つ親が見つかるまで上に探索
+    let domParentFiber = fiber.parent.dom;
+    while (!domParentFiber.dom) {
+      domParentFiber = domParentFiber.parent;
+    }
+    const domParent = domParentFiber.dom;
 
     if (fiber.effect === "PLACEMENT" && fiber.dom != null) {
       domParent.appendChild(fiber.dom);
