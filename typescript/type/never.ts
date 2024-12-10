@@ -1,3 +1,7 @@
+function error(message: string): never {
+  throw new Error(message);
+}
+
 type T = "a" | "b" | "c";
 
 const fn = (v: T) => {
