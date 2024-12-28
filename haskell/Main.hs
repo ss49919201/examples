@@ -16,5 +16,17 @@ isHideyoNoguchi firstName lastName
   where
     name = firstName ++ lastName
 
+isJsonString s =
+  let jsonStringHead = '"'
+      jsonStringLast = '"'
+   in head s == jsonStringHead && last s == jsonStringLast
+
+isJsonString' s = head s == jsonStringHead && last s == jsonStringLast
+  where
+    jsonStringHead = '"'
+    jsonStringLast = '"'
+
 main = do
   print logicalOperator -- True
+  print (isJsonString ['"', 'a', '"'])
+  print (isJsonString' ['"', 'a', '"'])
