@@ -27,9 +27,9 @@ isJsonString' s = head s == jsonStringHead && last s == jsonStringLast
     jsonStringLast = '"'
 
 -- \ は λ に見えるのでラムダ式
-filterNot1or3 = filter (\x -> x /= 1 && x /= 3)
+filterNot1or3 = filter $ \x -> x /= 1 && x /= 3
 
 main = do
   print logicalOperator -- True
-  print (isJsonString ['"', 'a', '"'])
-  print (isJsonString' ['"', 'a', '"'])
+  print $ isJsonString ['"', 'a', '"']
+  print $ isJsonString' ['"', 'a', '"']
