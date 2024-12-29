@@ -32,6 +32,10 @@ filterNot1or3 = filter $ \x -> x /= 1 && x /= 3
 -- 関数合成
 composite = sum . filter (10 >) . take 3
 
+-- ポイントフリースタイルで右端の変数を省略
+-- fnUsingPointFreeStyle x = replicate 5 x
+fnUsingPointFreeStyle = replicate 5
+
 main = do
   print logicalOperator -- True
   print $ isJsonString ['"', 'a', '"']
