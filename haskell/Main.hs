@@ -29,6 +29,9 @@ isJsonString' s = head s == jsonStringHead && last s == jsonStringLast
 -- \ は λ に見えるのでラムダ式
 filterNot1or3 = filter $ \x -> x /= 1 && x /= 3
 
+-- 関数合成
+composite = sum . filter (10 >) . take 3
+
 main = do
   print logicalOperator -- True
   print $ isJsonString ['"', 'a', '"']
