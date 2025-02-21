@@ -25,3 +25,20 @@ if (import.meta.vitest) {
     expect(() => validateAge(1.1)).toThrow();
   });
 }
+
+const validateName = (name: string) => {
+  if (!/^[a-zA-Z]$/.test(name))
+    throw new Error("名前は1文字以上の半角英字で入力してください");
+};
+
+if (import.meta.vitest) {
+  it("有効同値パーティション(1文字、半角英字)", () => {
+    expect(() => validateName("a")).not.toThrow();
+  });
+  it("無効同値パーティション(0文字)", () => {
+    expect(() => validateName("")).toThrow();
+  });
+  it("無効同値パーティション(全角)", () => {
+    expect(() => validateName("ア")).toThrow();
+  });
+}
