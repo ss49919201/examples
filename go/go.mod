@@ -1,6 +1,6 @@
 module github.com/ss49919201/examples/go
 
-go 1.21.0
+go 1.24.0
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
