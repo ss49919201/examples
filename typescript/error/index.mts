@@ -34,8 +34,14 @@
     }
   }
 
-  // 😊
-  function returnOriginalError(): OriginalError {
-    return new OriginalError2("OriginalError");
+  function isError<T extends Error>(
+    v: unknown,
+    classExtendsError: new (...args: any) => T
+  ) {
+    return v instanceof classExtendsError;
   }
+
+  console.log(isError(new OriginalError("origin"), Error));
+  console.log(isError(new OriginalError("origin"), OriginalError));
+  console.log(isError(new OriginalError("origin"), OriginalError2));
 }
