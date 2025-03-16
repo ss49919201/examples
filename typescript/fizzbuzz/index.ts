@@ -16,17 +16,15 @@ const buzz: FizzBuzzStrategy = {
 const fizzbuzz = (
   numbers: number[],
   strategies: FizzBuzzStrategy[]
-): string => {
-  return numbers
-    .map((n) => {
-      const result = strategies
-        .filter(({ predicate }) => predicate(n))
-        .map(({ output }) => output)
-        .join("");
+): string[] => {
+  return numbers.map((n) => {
+    const result = strategies
+      .filter(({ predicate }) => predicate(n))
+      .map(({ output }) => output)
+      .join("");
 
-      return result === "" ? n.toString() : result;
-    })
-    .join("\n");
+    return result === "" ? n.toString() : result;
+  });
 };
 
 const run = (n: number) => {
@@ -37,7 +35,7 @@ const run = (n: number) => {
     strategies
   );
 
-  console.log(result);
+  console.log(result.join("\n"));
 };
 
 run(50);
