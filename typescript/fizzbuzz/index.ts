@@ -1,16 +1,16 @@
-type FizzBuzzStrategy = (n: number) => string;
-
-const fizz: FizzBuzzStrategy = (n: number) => {
-  if (n % 3 !== 0) {
-    return "";
-  }
-  return "Fizz";
+type FizzBuzzStrategy = {
+  predicate: (n: number) => boolean;
+  output: string;
 };
-const buzz: FizzBuzzStrategy = (n: number) => {
-  if (n % 5 !== 0) {
-    return "";
-  }
-  return "Buzz";
+
+const fizz: FizzBuzzStrategy = {
+  predicate: (n) => n % 3 === 0,
+  output: "Fizz",
+};
+
+const buzz: FizzBuzzStrategy = {
+  predicate: (n) => n % 5 === 0,
+  output: "Buzz",
 };
 
 const fizzbuzz = (
@@ -19,11 +19,12 @@ const fizzbuzz = (
 ): string => {
   return numbers
     .map((n) => {
-      const result = strategies.map((strategy) => strategy(n)).join("");
-      if (result === "") {
-        return n.toString();
-      }
-      return result;
+      const result = strategies
+        .filter(({ predicate }) => predicate(n))
+        .map(({ output }) => output)
+        .join("");
+
+      return result === "" ? n.toString() : result;
     })
     .join("\n");
 };
