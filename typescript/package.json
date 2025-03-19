@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.675.0",
+    "@sentry/node": "^9.6.0",
+    "@sentry/tracing": "^7.120.3",
     "@types/node": "^22.0.2",
     "cloudflare": "^4.0.0",
     "crv-cli": "^0.0.1",
