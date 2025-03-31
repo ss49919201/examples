@@ -1,0 +1,37 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id       Int       @id @default(autoincrement())
+    email    String    @unique
+    name     String
+    reserves Reserve[]
+}
+
+enum ReserveStatus {
+    BEFORE_USE
+    DURING_USED
+    AFTER_USED
+    CANCELED
+}
+
+enum Facility {
+    POOL
+    STUDIO
+}
+
+model Reserve {
+    id         Int           @id @default(autoincrement())
+    facility   Facility
+    status     ReserveStatus
+    user       User          @relation(fields: [userId], references: [id])
+    userId     Int
+    created_at DateTime      @default(now())
+    updated_at DateTime      @default(now())
+}
