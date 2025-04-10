@@ -422,6 +422,7 @@ function selectUserWithTaskWithTaskConfig() {
     });
 }
 
+// https://www.prisma.io/blog/satisfies-operator-ur8ys8ccq7zb
 const { byId, hasTaskConfig } = {
   byId: (id: number) => ({ id }),
   hasTaskConfig: () => ({
