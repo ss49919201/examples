@@ -1,4 +1,4 @@
-import { PrismaClient, User } from "@prisma/client";
+import { Prisma, PrismaClient, User } from "@prisma/client";
 
 const prisma = new PrismaClient({
   log: ["query"],
@@ -184,25 +184,21 @@ function updateManyTaskAndPutTaskConfig() {
   const data = [
     {
       taskId: 10,
-      user:
-        {
-          name: "test",
-        } || null,
-      taskConfig:
-        {
-          config: "test",
-        } || undefined,
+      user: {
+        name: "test",
+      },
+      taskConfig: {
+        config: "test",
+      },
     },
     {
       taskId: 11,
-      user:
-        {
-          name: "test2",
-        } || null,
-      taskConfig:
-        {
-          config: "test",
-        } || undefined,
+      user: {
+        name: "test2",
+      },
+      taskConfig: {
+        config: "test",
+      },
     },
   ];
 
@@ -260,25 +256,21 @@ function updateManyTaskAndPutTaskConfig2() {
   const data = [
     {
       taskId: 10,
-      user:
-        {
-          name: "test",
-        } || null,
-      taskConfig:
-        {
-          config: "test",
-        } || undefined,
+      user: {
+        name: "test",
+      },
+      taskConfig: {
+        config: "test",
+      },
     },
     {
       taskId: 11,
-      user:
-        {
-          name: "test2",
-        } || null,
-      taskConfig:
-        {
-          config: "test",
-        } || undefined,
+      user: {
+        name: "test2",
+      },
+      taskConfig: {
+        config: "test",
+      },
     },
   ];
 
@@ -330,7 +322,7 @@ function updateManyTaskAndPutTaskConfig2() {
 function upsertTask() {
   prisma.task
     .upsert({
-      where: { id: 0 },
+      where: byId(1),
       update: { userId: 1, status: "TODO", deadlineAt: new Date() },
       create: {
         userId: 1,
@@ -419,13 +411,7 @@ function selectUserWithTaskWithTaskConfig() {
         },
       },
       where: {
-        tasks: {
-          some: {
-            taskConfig: {
-              isNot: null,
-            },
-          },
-        },
+        AND: [hasTaskConfig()],
       },
     })
     .then((result) => {
@@ -435,6 +421,19 @@ function selectUserWithTaskWithTaskConfig() {
       console.error(e);
     });
 }
+
+const { byId, hasTaskConfig } = {
+  byId: (id: number) => ({ id }),
+  hasTaskConfig: () => ({
+    tasks: {
+      some: {
+        taskConfig: {
+          isNot: null,
+        },
+      },
+    },
+  }),
+} satisfies Record<string, (...args: any) => Prisma.UserWhereInput>;
 
 switch (process.argv[2]) {
   case "1":
