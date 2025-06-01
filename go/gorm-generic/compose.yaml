@@ -1,0 +1,14 @@
+volumes:
+  mysql-data:
+
+services:
+  mysql:
+    container_name: gorm_generics_example
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: gorm_generics_example
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
