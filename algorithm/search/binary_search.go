@@ -1,6 +1,8 @@
 package main
 
-func binarySearch[T comparable](arr []T, v T) bool {
+import "cmp"
+
+func binarySearch[T cmp.Ordered](arr []T, v T) bool {
 	if len(arr) == 0 {
 		return false
 	}
@@ -9,16 +11,12 @@ func binarySearch[T comparable](arr []T, v T) bool {
 	}
 
 	mid := len(arr) / 2
-	left := arr[0:mid]
-	right := arr[mid:]
 
-	if result := binarySearch(left, v); result {
-		return result
+	if arr[mid] == v {
+		return true
+	} else if arr[mid] > v {
+		return binarySearch(arr[0:mid], v)
+	} else {
+		return binarySearch(arr[mid+1:], v)
 	}
-
-	if result := binarySearch(right, v); result {
-		return result
-	}
-
-	return false
 }
