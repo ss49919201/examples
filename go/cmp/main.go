@@ -5,18 +5,6 @@ import (
 	"fmt"
 )
 
-func fn() (err error) {
-	var e error
-	return e
-}
-
-type e struct {
-}
-
-func (e *e) Error() string {
-	return ""
-}
-
 func main() {
 	fmt.Println(cmp.Or(
 		"",
@@ -30,6 +18,4 @@ func main() {
 		s,
 		&s2,
 	))
-
-	fmt.Println(fn() == nil)
 }
