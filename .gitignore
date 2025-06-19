@@ -30,3 +30,6 @@ lerna-debug.log*
 typescript/prisma/prisma/migrations
 
 target
+
+# Git Worktrees
+../worktrees/

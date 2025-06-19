@@ -1,0 +1,55 @@
+# Git Worktree Configuration
+# This file defines the structure and settings for git worktrees
+
+# Worktree root directory (relative to repository root)
+WORKTREE_ROOT="../worktrees"
+
+# Default base branch for new worktrees
+DEFAULT_BASE_BRANCH="main"
+
+# Naming convention for worktrees
+# Supported patterns:
+# - feature/feature-name
+# - bugfix/bug-description
+# - hotfix/critical-fix
+# - experiment/experiment-name
+# - release/version-number
+
+# Directory structure will be:
+# examples/                    (main repository)
+# ├── scripts/
+# │   └── worktree.sh
+# ├── .worktree-config
+# └── ...
+#
+# worktrees/                   (worktree root)
+# ├── feature/
+# │   ├── new-api/            (feature/new-api branch)
+# │   └── user-auth/          (feature/user-auth branch)
+# ├── bugfix/
+# │   └── login-issue/        (bugfix/login-issue branch)
+# └── hotfix/
+#     └── security-patch/     (hotfix/security-patch branch)
+
+# Files to share between worktrees (symlinked from main repo)
+SHARED_FILES=(
+    ".gitignore"
+    ".editorconfig"
+    "package.json"
+    "tsconfig.json"
+    "biome.json"
+)
+
+# Files to keep separate per worktree
+SEPARATE_FILES=(
+    ".env"
+    ".env.local"
+    "node_modules/"
+    "dist/"
+    "build/"
+    "target/"
+)
+
+# IDE/Editor specific settings
+# VSCode: Each worktree should have its own .vscode/settings.json if needed
+# IntelliJ: .idea/ folders are automatically separate per worktree
