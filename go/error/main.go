@@ -23,6 +23,7 @@ func fn(err error) {
 
 type SuperError interface {
 	error
+
 	CallStack() string
 }
 
