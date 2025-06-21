@@ -11,18 +11,26 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.675.0",
+    "@logtape/logtape": "^0.12.1",
     "@sentry/node": "^9.6.0",
     "@sentry/tracing": "^7.120.3",
+    "@types/bunyan": "^1.8.11",
     "@types/node": "^22.0.2",
+    "bunyan": "^1.8.15",
     "cloudflare": "^4.0.0",
     "crv-cli": "^0.0.1",
     "drizzle-orm": "^0.35.3",
     "file-to-b64": "^0.0.1",
     "file-type": "^19.5.0",
+    "log4js": "^6.9.1",
+    "pino": "^9.7.0",
+    "pino-pretty": "^13.0.0",
     "puppeteer": "^23.0.1",
     "ts-node": "^10.9.2",
+    "tslog": "^4.9.3",
     "valibot": "^1.0.0",
-    "vitest": "^3.0.6"
+    "vitest": "^3.0.6",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.1",
