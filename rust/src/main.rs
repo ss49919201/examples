@@ -1,8 +1,11 @@
 fn main() {
-    let mut x = 1;
+    rec(10);
+}
 
-    println!("Hello, world! {}", x);
-
-    x = 5;
-    println!("Hello, world! {}", x);
+fn rec(n: i32) {
+    if n == 0 {
+        return;
+    }
+    println!("{}", n);
+    rec(n - 1);
 }
