@@ -72,3 +72,52 @@ func lomutoPartition(arr []int, low, high int) int {
 	arr[i], arr[high] = arr[high], arr[i]
 	return i // ピボットの最終位置
 }
+
+// 以下は partition で left を返す複雑な実装
+// func quickSortLeft(arr []int, low, high int) {
+// 	if low < high {
+// 		pi := hoarePartitionLeft(arr, low, high) // return left
+
+// 		// 安全なleft版実装 - 範囲が縮小することを確認
+// 		if pi > low {
+// 			quickSortLeft(arr, low, pi-1)
+// 		}
+// 		if pi < high && pi > low { // 右部分が縮小され、かつleftがlow超える場合のみ
+// 			quickSortLeft(arr, pi, high)
+// 		}
+// 	}
+// }
+
+// // Hoare分割方式
+// func hoarePartitionLeft(arr []int, low, high int) int {
+// 	pivot := low + (high-low)/2
+// 	pivotValue := arr[pivot]
+
+// 	left := low
+// 	right := high
+
+// 	for {
+// 		for arr[left] < pivotValue {
+// 			left++
+// 		}
+
+// 		for arr[right] > pivotValue {
+// 			right--
+// 		}
+
+// 		// MEMO: 片方が pivot の添字まで進んでいる且つ、片方が添字との差分=1まで進んでいる場合に次のイテレートで交差する
+// 		//
+// 		// 配列: [1 3 2 4], pivotValue=3
+// 		// iter 1:  i = 1 j = 2 → swap → incr → i = 2 j = 1
+// 		// swap 後に i = 2 j = 1 になり交差
+// 		if left >= right {
+// 			// pivot 要素が swap されていることもあるので、
+// 			// return pivot は NG
+// 			return left
+// 		}
+
+// 		arr[right], arr[left] = arr[left], arr[right]
+// 		left++
+// 		right--
+// 	}
+// }
