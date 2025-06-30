@@ -16,8 +16,6 @@ func quickSort(arr []int, low, high int) {
 	}
 }
 
-// 重複関数を削除し、hoarePartitionに統一
-
 // Hoare分割方式
 func hoarePartition(arr []int, low, high int) int {
 	pivot := low + (high-low)/2
@@ -50,4 +48,27 @@ func hoarePartition(arr []int, low, high int) int {
 		left++
 		right--
 	}
+}
+
+// Lomuto分割方式
+func lomutoPartition(arr []int, low, high int) int {
+	// 真ん中の要素をピボットとして選択し、最後に移動
+	mid := low + (high-low)/2
+	arr[mid], arr[high] = arr[high], arr[mid]
+
+	pivot := arr[high] // 最後の要素をピボットに
+	i := low - 1       // 小さい要素のインデックス
+
+	// ピボット値より小さい要素を左側に移動
+	for j := low; j < high; j++ {
+		if arr[j] <= pivot {
+			i++
+			arr[i], arr[j] = arr[j], arr[i]
+		}
+	}
+
+	// ピボット要素を正しい位置に配置
+	i++
+	arr[i], arr[high] = arr[high], arr[i]
+	return i // ピボットの最終位置
 }
