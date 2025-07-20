@@ -1,3 +1,4 @@
+-- Merge Sort Implementation
 mergeSort :: (Ord a) => [a] -> [a]
 mergeSort [] = []
 mergeSort [x] = [x]
@@ -12,16 +13,30 @@ merge (x:xs) (y:ys)
   | x <= y = x : merge xs (y:ys)
   | otherwise = y : merge (x:xs) ys
 
+-- Quick Sort Implementation
+quickSort :: (Ord a) => [a] -> [a]
+quickSort [] = []
+quickSort (x:xs) = quickSort smaller ++ [x] ++ quickSort larger
+  where
+    smaller = [a | a <- xs, a <= x]
+    larger = [b | b <- xs, b > x]
+
 main :: IO ()
 main = do
   let unsorted = [64, 34, 25, 12, 22, 11, 90]
   putStrLn "Original list:"
   print unsorted
-  putStrLn "Sorted list:"
+  
+  putStrLn "\nMerge Sort:"
   print (mergeSort unsorted)
   
+  putStrLn "\nQuick Sort:"
+  print (quickSort unsorted)
+  
   let stringList = ["banana", "apple", "cherry", "date"]
-  putStrLn "Original string list:"
+  putStrLn "\nOriginal string list:"
   print stringList
-  putStrLn "Sorted string list:"
+  putStrLn "Merge Sort (strings):"
   print (mergeSort stringList)
+  putStrLn "Quick Sort (strings):"
+  print (quickSort stringList)
