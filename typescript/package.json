@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.675.0",
+    "@hono/node-server": "^1.18.1",
     "@logtape/logtape": "^0.12.1",
     "@sentry/node": "^9.6.0",
     "@sentry/tracing": "^7.120.3",
