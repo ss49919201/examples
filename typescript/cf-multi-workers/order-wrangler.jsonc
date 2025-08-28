@@ -1,0 +1,16 @@
+{
+  "name": "order",
+  "main": "./src/order/index.ts",
+  "services": [
+    {
+      "binding": "SLACK_NOTIFICATION",
+      "service": "notification",
+      "entrypoint": "SlackNotification"
+    },
+    {
+      "binding": "DISCORD_NOTIFICATION",
+      "service": "notification",
+      "entrypoint": "DiscordNotification"
+    }
+  ]
+}

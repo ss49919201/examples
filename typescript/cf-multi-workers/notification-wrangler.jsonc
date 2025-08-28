@@ -1,0 +1,4 @@
+{
+  "name": "notification",
+  "main": "./src/notification/index.ts"
+}
