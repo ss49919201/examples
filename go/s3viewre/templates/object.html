@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object: {{.ObjectKey}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <a href="/bucket/{{.BucketName}}" class="btn btn-secondary">← バケットに戻る</a>
+                <h1>{{.ObjectKey}}</h1>
+            </div>
+        </header>
+
+        <main>
+            {{if .Error}}
+            <div class="alert alert-error">
+                <strong>エラーが発生しました：</strong> {{.Error}}
+            </div>
+            {{else if .Detail}}
+            <div class="object-detail">
+                <h2>オブジェクト情報</h2>
+                <table class="detail-table">
+                    <tr>
+                        <th>項目</th>
+                        <th>値</th>
+                    </tr>
+                    <tr>
+                        <td>ファイルキー</td>
+                        <td><code>{{.ObjectKey}}</code></td>
+                    </tr>
+                    <tr>
+                        <td>ファイルサイズ</td>
+                        <td>{{.FormattedSize}} ({{.Detail.Size}} バイト)</td>
+                    </tr>
+                    <tr>
+                        <td>Content-Type</td>
+                        <td>{{.Detail.ContentType}}</td>
+                    </tr>
+                    <tr>
+                        <td>最終更新日時</td>
+                        <td>{{.Detail.LastModified}}</td>
+                    </tr>
+                    <tr>
+                        <td>ETag</td>
+                        <td><code>{{.Detail.ETag}}</code></td>
+                    </tr>
+                    <tr>
+                        <td>ストレージクラス</td>
+                        <td>{{.Detail.StorageClass}}</td>
+                    </tr>
+                </table>
+            </div>
+            {{else}}
+            <div class="alert alert-info">
+                オブジェクト情報を読み込み中です...
+            </div>
+            {{end}}
+        </main>
+
+        <footer>
+            <p>&copy; 2025 S3 Bucket Viewer</p>
+        </footer>
+    </div>
+</body>
+</html>

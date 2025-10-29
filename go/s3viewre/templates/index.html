@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S3 Bucket Viewer</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🪣 S3 Bucket Viewer</h1>
+            <p>AWS S3バケットを視覚的に管理します</p>
+        </header>
+
+        <main>
+            {{if .Error}}
+            <div class="alert alert-error">
+                <strong>エラーが発生しました：</strong> {{.Error}}
+            </div>
+            {{end}}
+
+            {{if .Buckets}}
+            <div class="buckets-section">
+                <h2>アクセス可能なバケット一覧</h2>
+                <div class="buckets-grid">
+                    {{range .Buckets}}
+                    <div class="bucket-card">
+                        <div class="bucket-header">
+                            <h3>{{.Name}}</h3>
+                        </div>
+                        <div class="bucket-info">
+                            <p><strong>作成日:</strong> {{.CreationDate}}</p>
+                            <p><strong>リージョン:</strong> {{.Region}}</p>
+                        </div>
+                        <div class="bucket-action">
+                            <a href="/bucket/{{.Name}}" class="btn btn-primary">バケットを表示</a>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+            {{else}}
+            <div class="alert alert-info">
+                アクセス可能なバケットが見つかりません
+            </div>
+            {{end}}
+        </main>
+
+        <footer>
+            <p>&copy; 2025 S3 Bucket Viewer</p>
+        </footer>
+    </div>
+</body>
+</html>

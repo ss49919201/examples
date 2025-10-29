@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucket: {{.BucketName}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <a href="/" class="btn btn-secondary">← バケット一覧に戻る</a>
+                <h1>{{.BucketName}}</h1>
+            </div>
+        </header>
+
+        <main>
+            {{if .Error}}
+            <div class="alert alert-error">
+                <strong>エラーが発生しました：</strong> {{.Error}}
+            </div>
+            {{end}}
+
+            <!-- パンくずリスト -->
+            <div class="breadcrumb">
+                {{range .Breadcrumbs}}
+                    {{if eq .Path ""}}
+                        <a href="/bucket/{{$.BucketName}}">{{.Name}}</a>
+                    {{else}}
+                        <a href="/bucket/{{$.BucketName}}?prefix={{.Path | urlquery}}">{{.Name}}</a>
+                    {{end}}
+                    <span class="separator">/</span>
+                {{end}}
+            </div>
+
+            <!-- 検索ボックス -->
+            <div class="search-section">
+                <form method="get" class="search-form">
+                    <input type="hidden" name="prefix" value="{{.Prefix}}">
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="ファイル名やフォルダ名で検索..."
+                        class="search-input"
+                    >
+                    <button type="submit" class="btn btn-primary">検索</button>
+                </form>
+            </div>
+
+            <!-- オブジェクト一覧 -->
+            <div class="objects-section">
+                {{if .Objects}}
+                <table class="objects-table">
+                    <thead>
+                        <tr>
+                            <th>タイプ</th>
+                            <th>名前</th>
+                            <th>サイズ</th>
+                            <th>最終更新日時</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .Objects}}
+                        <tr class="{{if .IsFolder}}folder-row{{else}}file-row{{end}}">
+                            <td class="type-cell">
+                                {{if .IsFolder}}
+                                    <span class="type-icon folder-icon">📁</span>
+                                {{else}}
+                                    <span class="type-icon file-icon">📄</span>
+                                {{end}}
+                            </td>
+                            <td class="name-cell">
+                                {{if .IsFolder}}
+                                    <a href="/bucket/{{$.BucketName}}?prefix={{.Key | urlquery}}">
+                                        {{.Name}}
+                                    </a>
+                                {{else}}
+                                    <a href="/object/{{$.BucketName}}/{{.Key | urlquery}}">
+                                        {{.Name}}
+                                    </a>
+                                {{end}}
+                            </td>
+                            <td class="size-cell">
+                                {{if .IsFolder}}
+                                    -
+                                {{else}}
+                                    {{.Size}}B
+                                {{end}}
+                            </td>
+                            <td class="date-cell">{{.LastModified}}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+                {{else}}
+                <div class="alert alert-info">
+                    オブジェクトが見つかりません
+                </div>
+                {{end}}
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 S3 Bucket Viewer</p>
+        </footer>
+    </div>
+</body>
+</html>

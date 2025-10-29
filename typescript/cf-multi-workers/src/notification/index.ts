@@ -1,27 +1,18 @@
 import { WorkerEntrypoint } from 'cloudflare:workers';
 
-export class SlackNotification extends WorkerEntrypoint {
-	async fetch() {
-		return new Response(null);
-	}
-
+// どこかに通知するエントリポイント
+export class Notifier extends WorkerEntrypoint {
 	async send(message: string) {
-		console.log('sent to Slack!', message);
-	}
-}
+		const timestamp = new Date().toISOString();
+		const notification = {
+			id: Math.random().toString(36).substr(2, 9),
+			message,
+			timestamp,
+			status: 'sent',
+		};
 
-export class DiscordNotification extends WorkerEntrypoint {
-	async fetch() {
-		return new Response(null);
-	}
+		console.log(`通知を送信しました: ${JSON.stringify(notification)}`);
 
-	async send(message: string) {
-		console.log('sent to Discord!', message);
-	}
-}
-
-export default class extends WorkerEntrypoint {
-	async fetch() {
-		return new Response(null);
+		return notification;
 	}
 }
