@@ -1,40 +1,23 @@
-import { Context } from "aws-lambda";
+import { ListObjectsCommand, S3Client } from "@aws-sdk/client-s3";
 
-interface HandlerResponse {
-  statusCode: number;
-  body: string;
-}
+const client = new S3Client({ region: "ap-northeast-1" });
 
-export const handler = async (
-  event: unknown,
-  context: Context,
-): Promise<HandlerResponse> => {
-  console.log("Event:", JSON.stringify(event, null, 2));
-  console.log("Context:", {
-    functionName: context.functionName,
-    requestId: context.awsRequestId,
-    memoryLimitInMB: context.memoryLimitInMB,
+const handler = async (event: any) => {
+  console.log(event);
+
+  const command = new ListObjectsCommand({
+    Bucket: "keeput-local",
+    Delimiter: "/",
   });
-
   try {
-    const response: HandlerResponse = {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: "Hello from Lambda",
-        timestamp: new Date().toISOString(),
-        requestId: context.awsRequestId,
-      }),
-    };
+    const response = await client.send(command);
 
-    console.log("Response:", JSON.stringify(response, null, 2));
-    return response;
-  } catch (error) {
-    console.error("Error:", error);
     return {
-      statusCode: 500,
-      body: JSON.stringify({
-        error: error instanceof Error ? error.message : "Unknown error",
-      }),
+      statusCode: 200,
+      body: JSON.stringify(response),
     };
+  } catch (error) {
+    throw error;
   }
 };
+module.exports = { handler };

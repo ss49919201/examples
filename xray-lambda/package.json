@@ -4,18 +4,26 @@
   "description": "TypeScript Lambda function with Docker",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts"
   },
-  "keywords": ["lambda", "aws", "nodejs", "typescript"],
+  "keywords": [
+    "lambda",
+    "aws",
+    "nodejs",
+    "typescript"
+  ],
   "author": "",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.119",
+    "@types/aws-lambda": "^8.10.157",
     "@types/node": "^20.10.0",
-    "typescript": "^5.3.3",
-    "ts-node": "^10.9.1"
+    "esbuild": "^0.25.11",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.921.0"
   }
 }
