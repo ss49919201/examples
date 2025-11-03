@@ -9,21 +9,17 @@ import { UndiciInstrumentation } from "@opentelemetry/instrumentation-undici";
 
 const _traceExporter = new OTLPHttpJsonTraceExporter();
 const _spanProssesor = new BatchSpanProcessor(_traceExporter);
-const _tracerConfig = {
-  idGenerator: new AWSXRayIdGenerator(),
-};
 
 export function register() {
   registerOTel({
     serviceName: "xray-nextjs",
-    idGenerator: new AWSXRayIdGenerator(),
     spanProcessors: [_spanProssesor],
     traceExporter: _traceExporter,
     propagators: [new AWSXRayPropagator()],
     instrumentations: [
       new UndiciInstrumentation(),
       new HttpInstrumentation(),
-      new AwsInstrumentation({}),
+      new AwsInstrumentation(),
     ],
   });
 }
