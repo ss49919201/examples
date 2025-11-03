@@ -1,6 +1,5 @@
 import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
 import { NextRequest, NextResponse } from "next/server";
-import { trace } from "@opentelemetry/api";
 import { request as sendRequest } from "undici";
 
 const lambda = new LambdaClient({ region: "ap-northeast-1" });
