@@ -19,9 +19,9 @@ exporters:
   debug:
     verbosity: detailed
   awsxray:
-    region: "ap-northeast-1"
+    region: 'ap-northeast-1'
   awsemf:
-    region: "ap-northeast-1"
+    region: 'ap-northeast-1'
 
 service:
   pipelines:
@@ -31,6 +31,7 @@ service:
     metrics:
       receivers: [otlp]
       exporters: [awsemf]
+  extensions: [pprof, health_check]
   telemetry:
     logs:
       level: debug

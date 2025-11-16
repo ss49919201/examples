@@ -24,6 +24,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.921.0"
+    "@aws-sdk/client-s3": "^3.921.0",
+    "@opentelemetry/instrumentation-undici": "^0.19.0"
   }
 }
