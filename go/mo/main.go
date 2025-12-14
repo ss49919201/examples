@@ -1,10 +1,36 @@
 package main
 
 import (
+	"fmt"
+	"os"
+	"strconv"
+
 	"github.com/samber/mo"
+	"github.com/samber/mo/result"
 )
 
+func appendDoubleZero(s string) string {
+	return s + "00"
+}
+
 func main() {
+	r := result.Pipe2(
+		mo.Ok("1"),
+		result.Map(appendDoubleZero),
+		result.FlatMap(func(v string) mo.Result[int] {
+			s, err := strconv.Atoi(v)
+			if err != nil {
+				return mo.Err[int](err)
+			}
+			return mo.Ok(s)
+		}),
+	)
+	got, err := r.Get()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	fmt.Println("result is:", got)
 }
 
 type addItemToCartCommandInput struct {
