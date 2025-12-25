@@ -29,6 +29,7 @@ async function invokeLambda() {
 
 async function run() {
   await invokeLambda();
+  // await listS3();
   // テレメトリデータのエクスポートを待つ
   await setTimeout(5000);
 }

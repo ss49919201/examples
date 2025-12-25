@@ -1,36 +1,29 @@
-const {
-  resourceFromAttributes,
-  processDetector,
+import { AwsInstrumentation } from "@opentelemetry/instrumentation-aws-sdk";
+import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
+import { AWSXRayPropagator } from "@opentelemetry/propagator-aws-xray";
+import {
   hostDetector,
-} = require("@opentelemetry/resources");
-const {
-  OTLPTraceExporter,
-} = require("@opentelemetry/exporter-trace-otlp-proto");
-const {
-  AwsInstrumentation,
-} = require("@opentelemetry/instrumentation-aws-sdk");
-const { ConsoleSpanExporter } = require("@opentelemetry/sdk-trace-node");
-const { NodeSDK } = require("@opentelemetry/sdk-node");
-const { ATTR_SERVICE_NAME } = require("@opentelemetry/semantic-conventions");
-
-const exporter = new OTLPTraceExporter({
-  maxQueueSize: 1000,
-  url: "https://otlp-vaxila.mackerelio.com/v1/traces",
-  headers: {
-    Accept: "*/*",
-    "Mackerel-Api-Key": process.env.MACKEREL_API_KEY,
-  },
-});
+  processDetector,
+  resourceFromAttributes,
+} from "@opentelemetry/resources";
+import { NodeSDK } from "@opentelemetry/sdk-node";
+import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-node";
+import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 
 const debugExporter = new ConsoleSpanExporter();
 
 const sdk = new NodeSDK({
-  traceExporter: exporter,
-  instrumentations: [new AwsInstrumentation()],
+  instrumentations: [
+    new AwsInstrumentation({
+      // suppressInternalInstrumentation: true,
+    }),
+    new HttpInstrumentation(),
+  ],
   resource: resourceFromAttributes({
     [ATTR_SERVICE_NAME]: "acme_service",
   }),
   resourceDetectors: [processDetector, hostDetector],
+  textMapPropagator: new AWSXRayPropagator(),
 });
 
 sdk.start();

@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-base": "^2.2.0",
+    "@vercel/otel": "^2.1.0"
+  }
+}
