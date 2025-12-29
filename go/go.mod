@@ -4,19 +4,21 @@ go 1.24.0
 
 require (
 	github.com/Code-Hex/synchro v0.5.2
+	github.com/aws/aws-sdk-go-v2/config v1.29.14
+	github.com/aws/aws-sdk-go-v2/service/sqs v1.38.5
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-sql-driver/mysql v1.8.1
-	github.com/ikawaha/kagome-dict/ipa v1.2.1
+	github.com/ikawaha/kagome-dict/ipa v1.2.5
 	github.com/ikawaha/kagome/v2 v2.10.1
 	github.com/samber/mo v1.16.0
 	github.com/samber/slog-multi v1.4.0
 	github.com/samber/slog-sampling v1.5.4
+	github.com/syumai/workers v0.30.2
 )
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.36.3 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.29.14 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.67 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.30 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.34 // indirect
@@ -24,7 +26,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.15 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sqs v1.38.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.25.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.30.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.33.19 // indirect
@@ -43,7 +44,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.26.0 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
-	github.com/ikawaha/kagome-dict v1.1.2 // indirect
+	github.com/ikawaha/kagome-dict v1.1.6 // indirect
 	github.com/itchyny/timefmt-go v0.1.6 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
@@ -56,7 +57,6 @@ require (
 	github.com/samber/lo v1.49.1 // indirect
 	github.com/samber/slog-common v0.18.1 // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
-	github.com/syumai/workers v0.30.2 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	golang.org/x/arch v0.16.0 // indirect
