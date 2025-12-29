@@ -4,7 +4,7 @@ volumes:
 
 services:
   db:
-    image: mysql:8.0
+    image: mysql:9.5
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: prisma-example
@@ -17,7 +17,7 @@ services:
     ports:
       - 127.0.0.1:3306:3306
   db-reader:
-    image: mysql:8.0
+    image: mysql:9.5
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: prisma-example
