@@ -5,8 +5,8 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.11.4",
-    "@hono/otel": "^0.5.0",
-    "@opentelemetry/sdk-node": "^0.205.0",
+    "@hono/otel": "^0.6.0",
+    "@opentelemetry/sdk-node": "^0.208.0",
     "hono": "^4.4.10"
   },
   "devDependencies": {
