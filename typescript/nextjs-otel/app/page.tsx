@@ -1,13 +1,19 @@
+import { logger } from "@/lib/logger";
+
 export default async function Home({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  console.log({
-    params: await searchParams,
+  const params = await searchParams;
+
+  logger.info({
+    params,
+    message: "Home page accessed",
   });
 
-  if ((await searchParams)["throw"] === "true") {
+  if (params["throw"] === "true") {
+    logger.error("Error thrown from query parameter");
     throw new Error("throw error!");
   }
 
