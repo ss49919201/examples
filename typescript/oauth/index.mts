@@ -32,7 +32,7 @@ type ThirdPartyApp = {
   getAccessRole(authService: AuthService, user: User): Result<string>;
 };
 
-const ThirdPartyApp: ThirdPartyApp = {
+const thirdPartyApp: ThirdPartyApp = {
   getAccessRole(authService: AuthService, user: User): Result<string> {
     const result = authService.generateToken(user);
     if (result.isErr) {
@@ -51,7 +51,7 @@ type AuthService = {
   authenticateUser(user: User): Result<null>;
 };
 
-const AuthService: AuthService = {
+const authService: AuthService = {
   generateToken(user: User): Result<string> {
     const result = this.authenticateUser(user);
     if (result.isErr) {
@@ -75,6 +75,4 @@ const User = {
   },
 };
 
-() => {
-  ThirdPartyApp;
-};
+() => {};
