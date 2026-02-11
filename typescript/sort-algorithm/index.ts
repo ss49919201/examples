@@ -42,6 +42,36 @@ function bubbleSort(array: Array<number>): Array<number> {
   return array;
 }
 
+function mergetSort(array: Array<number>): Array<number> {
+  if (array.length <= 1) {
+    return array;
+  }
+  const halfIndex = Math.floor(array.length / 2);
+  const left = mergetSort(array.slice(0, halfIndex));
+  const right = mergetSort(array.slice(halfIndex));
+  let leftN = 0;
+  let rightN = 0;
+  const result = [];
+  while (true) {
+    if (leftN === left.length) {
+      result.push(...right.slice(rightN));
+      break;
+    }
+    if (rightN === right.length) {
+      result.push(...left.slice(leftN));
+      break;
+    }
+    if (left[leftN] <= right[rightN]) {
+      result.push(left[leftN]);
+      leftN++;
+    } else {
+      result.push(right[rightN]);
+      rightN++;
+    }
+  }
+  return result;
+}
+
 console.log(quickSort([2]));
 console.log(quickSort([2, 4]));
 console.log(quickSort([2, 4, 6]));
