@@ -3,6 +3,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
+trait Foo {
+  def bar: Unit
+}
+
+object foo extends Foo {
+  def bar: Unit = {}
+}
+
 @main
 def main(): Unit = {
   val f: Future[String] = Future {

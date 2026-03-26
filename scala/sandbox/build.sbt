@@ -9,5 +9,6 @@ lazy val root = (project in file("."))
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-flatspec" % "3.2.19" % "test",
-  "org.scalatest" %% "scalatest-diagrams" % "3.2.19" % "test",
+  "org.scalatest" %% "scalatest-diagrams" % "3.2.19" % "test"
 )
+libraryDependencies += "org.mockito" % "mockito-core" % "5.23.0" % "test"
